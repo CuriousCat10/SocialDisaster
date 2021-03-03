@@ -1,0 +1,9 @@
+.messages .message {
+  margin: 5px;
+  border-bottom: 1px grey dotted;  
+}
+
+.messages .messageNo {
+  margin: 5px;
+  color: grey;
+}

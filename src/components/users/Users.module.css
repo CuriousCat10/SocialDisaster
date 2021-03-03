@@ -1,0 +1,38 @@
+.users {
+    font-size: 20px;
+    margin: 10px;
+}
+
+.users img{
+    width: 90px;
+    margin: 5px;
+} button {
+    margin-bottom: 10px;
+}
+
+.user{
+    border-bottom: 1px dashed grey;
+    margin-bottom: 5px;
+}
+
+.userAvatar{
+    display: inline-block;
+}
+
+.userName{
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    margin-top: 20px;
+    width: 180px;
+    word-wrap: break-word;
+} svg {
+    width: 25px;
+    height: 25px;
+}
+
+.userLocation{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 40px;
+}

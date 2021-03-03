@@ -1,0 +1,16 @@
+.mainProfile {
+    font-size:  20px;
+    padding: 20px;
+}
+
+.mainProfile img {
+    width: 100px;
+}
+
+.mainProfile ul{
+    display: inline-block;
+}
+
+.mainProfile li{
+    text-indent: 20px;
+}

@@ -1,0 +1,16 @@
+.rating {
+    width: 50px;
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.rating button {
+    margin-left: 5px;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.rating img {
+    vertical-align: auto;
+    width: 20px;
+}

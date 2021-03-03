@@ -1,0 +1,28 @@
+.messagesForm {
+    display: grid;
+    margin: 5px;
+    position: relative;
+    height: 100%;
+    grid-template-columns: 3fr 7fr;
+    font-size: 25px;
+}
+
+.dialogs {
+    height: 98%;
+    border-right: 2px dashed black;
+}
+
+.dialog a{
+    color: black;
+    text-decoration: none;
+}
+
+.dialog a.activeClass{
+    color: rgb(94, 94, 211);
+    font-size: 30px;
+}
+
+/*
+.messages .message {
+    
+}*/

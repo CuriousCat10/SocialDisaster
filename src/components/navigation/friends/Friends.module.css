@@ -1,0 +1,19 @@
+.friends {
+    padding-top: 30px;
+    margin-left: 5px;
+    font-size: 30px;
+}
+
+.friendList {
+    text-align: right;
+    margin-right: 20px;
+    font-size: 24px;
+}
+
+.friendActive {
+    color: rgb(114, 172, 55);
+}
+
+.friendInactive {
+    color: rgb(173, 24, 19);
+}

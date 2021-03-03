@@ -1,0 +1,17 @@
+.writeSMS {
+    margin: 0px 20px;
+    width: 340px;
+    height: 130px;
+}
+
+.sendSMS {
+    
+    margin: 20px 10px 10px 150px;
+    border: 1px solid rgb(110, 107, 107);
+}
+
+.sendPost {
+    
+    display: inline;
+    border: 1px solid rgb(110, 107, 107);
+}

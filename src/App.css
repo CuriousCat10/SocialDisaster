@@ -1,0 +1,17 @@
+.content {
+    grid-area: c;
+    background-color: rgb(240, 236, 231);
+}
+
+.App {
+    display: grid;
+    width: 550px;
+    border: 2px solid black;
+    
+    grid-template-rows: 210px 3.7fr;
+    grid-template-columns: 160px 390px;
+
+    grid-template-areas: 
+    "h h"
+    "n c";
+}
