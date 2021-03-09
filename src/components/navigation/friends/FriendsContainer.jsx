@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Friends from './Friends';
 
 let mapStateToProps = (state) => {
-    const friendsView = state.users.map(user =>
+    const friendsView = state.usersInfo.users.slice(0, 9).map(user =>
         user.status ? (
             <div className={s.friendActive}>
                 {user.name}

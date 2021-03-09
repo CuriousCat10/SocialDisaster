@@ -10,7 +10,7 @@ let mapStateToProps = (state) => {
     for (let value of state.posts.keys()) {
 
         try {
-            ourUser = state.users.find(user => user.name == value);
+            ourUser = state.usersInfo.users.find(user => user.name == value);
         } catch {
             continue;
         };

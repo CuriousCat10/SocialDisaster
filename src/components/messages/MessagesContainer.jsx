@@ -7,7 +7,7 @@ import s from './Messages.module.css';
 import { connect } from 'react-redux';
 
 let mapStateToProps = (state) => {
-    const dialogs = state.users.map(u =>
+    const dialogs = state.usersInfo.users.map(u =>
         <div className={s.dialog}>
             <NavLink to={'/messages/' + u.id}
                 activeClassName={s.activeClass}>
@@ -16,7 +16,7 @@ let mapStateToProps = (state) => {
         </div>
     );
 
-    const ids = state.users.map(u =>
+    const ids = state.usersInfo.users.map(u =>
         <Route path={"/messages/" + u.id}
             render={() =>
                 <Message personName={u.name}

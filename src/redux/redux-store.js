@@ -7,7 +7,7 @@ import usersReducer from "./usersReducer";
 let reducers = combineReducers({
     textFixed: textFixedReducer,
     posts: postsReducer,
-    users: usersReducer,
+    usersInfo: usersReducer,
     messages: messagesReducer
 });
 
