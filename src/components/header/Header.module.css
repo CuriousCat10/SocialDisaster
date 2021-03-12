@@ -5,5 +5,12 @@
 }
 
 .header img {
-    width: 550px;
+    width: 450px;
+}
+
+.loginBlock {
+    color: white;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 100px;
 }

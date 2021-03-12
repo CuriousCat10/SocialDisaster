@@ -1,7 +1,12 @@
+import { usersAPI } from "../api/api";
+import userImage from "../assets/images/user.png";
+
 const CREATE_USER = "CREATE-USER";
 const SET_USERS = "SET-USERS";
 const SET_CURRENT_PAGE = "SET-CURRENT-PAGE";
 const SET_TOTAL_USERS_COUNT = "SET-TOTAL-USERS-COUNT";
+const TOGGLE_IS_FETCHING_USERS = "TOGGLE-IS-FETCHING-USERS";
+const TOGGLE_IS_FOLLOWING_USER = "TOGGLE-IS-FOLLOWING-USER";
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 
@@ -50,7 +55,10 @@ const initialState = {
   ],
   pageSize: 5,
   totalUsersCount: 19,
-  currentPage: 1
+  currentPage: 1,
+  isFetching: false,
+  isFollowing: [],
+  currentFreeID: 6
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -71,18 +79,19 @@ const usersReducer = (state = initialState, action) => {
         }
 
         return {
-            ...state,
-            users: [
-              ...state.users, 
-              {
-                name: action.name,
-                id: state.users.length + 1,
-                followed: false,
-                status: true,
-                photo: photo,
-                location: { city: '-', country: '-' }
-              }
-            ],
+          ...state,
+          users: [
+            ...state.users,
+            {
+              name: action.name,
+              id: state.currentFreeID,
+              followed: false,
+              status: true,
+              photo: photo,
+              location: { city: '-', country: '-' }
+            }
+          ],
+          currentFreeID: state.currentFreeID++
 
         }
       }
@@ -93,30 +102,58 @@ const usersReducer = (state = initialState, action) => {
 
     case (SET_USERS): {
 
-      if (!state.users.find( user => user.name === (action.users[0].name))) {
+      if (!state.users.find(user => user.name === (action.users[0].name))) {
         return {
           ...state,
           users: [
-            ...state.users, 
-            ...action.users
+            ...state.users,
+            ...action.users.map((u) => {
+              return {
+                name: u.name,
+                id: u.id,
+                followed: u.followed,
+                status: false,
+                photo: u.photos.small ? u.photos.small : userImage,
+                location: {
+                  city: 'Москва',
+                  country: 'Россия'
+                }
+              }
+            })
           ]
         }
       }
       return state;
     }
 
+    case (TOGGLE_IS_FETCHING_USERS): {
+      return {
+        ...state,
+        isFetching: action.value
+      }
+    }
+
+    case (TOGGLE_IS_FOLLOWING_USER): {
+      return {
+        ...state,
+        isFollowing: action.value ? [...state.isFollowing, action.id] : [...state.isFollowing.filter(id => id != action.id)]
+      }
+    }
+
+
     case (FOLLOW): {
 
       return {
-          ...state, 
-          users: state.users.map( (user) => {
+        ...state,
+        users: state.users.map((user) => {
           if (user.id == action.id) {
             return {
-              ...user, 
+              ...user,
               followed: true
             };
-          };
-          return user;
+          } else {
+            return user;
+          }
         })
       }
     }
@@ -124,11 +161,11 @@ const usersReducer = (state = initialState, action) => {
     case (UNFOLLOW): {
 
       return {
-          ...state, 
-          users: state.users.map( (user) => {
+        ...state,
+        users: state.users.map((user) => {
           if (user.id == action.id) {
             return {
-              ...user, 
+              ...user,
               followed: false
             };
           };
@@ -138,11 +175,11 @@ const usersReducer = (state = initialState, action) => {
     }
 
     case (SET_CURRENT_PAGE): {
-      return {...state, currentPage: action.page};
+      return { ...state, currentPage: action.page };
     }
 
     case (SET_TOTAL_USERS_COUNT): {
-      return {...state, totalUsersCount: action.count};
+      return { ...state, totalUsersCount: action.count };
     }
 
     default: {
@@ -153,46 +190,123 @@ const usersReducer = (state = initialState, action) => {
 
 };
 
-export const createUserActionCreator = (name) => {
+export const getUsersThunkCreator = (number, pageSize, totalUsersCount) => {
+  return (dispatch) => {
+    dispatch(setCurrentPage(number));
+    if (number != 1) {
+      dispatch(toggleIsFetchingUsers(true));
+    }
+    for (let i = 1; i < number; i++) {
+      usersAPI.getUsersAPI(i, pageSize).then(data => {
+        if (i === number - 1) {
+          dispatch(toggleIsFetchingUsers(false));
+        };
+        if (i === Math.ceil(totalUsersCount / pageSize)) {
+          dispatch(setUsers(data.items.slice(0, Math.ceil(totalUsersCount / pageSize))));
+        } else {
+          dispatch(setUsers(data.items));
+        }
+      })
+    }
+
+  };
+}
+
+export const unfollowThunkCreator = (userId) => {
+  return (dispatch) => {
+    if (userId > 15000) {
+      dispatch(toggleIsFollowingUser(true, userId));
+      usersAPI.unfollowAPI(userId).then(data => {
+        if (data.resultCode == 0) {
+          dispatch(unfollow(userId));
+          dispatch(toggleIsFollowingUser(false, userId));
+        }
+      }).catch(() => {
+        alert("Слишком много запросов. Повторите позже");
+        dispatch(toggleIsFollowingUser(false, userId));
+      }
+      );
+    } else {
+      dispatch(unfollow(userId));
+    }
+  }
+}
+
+export const followThunkCreator = (userId) => {
+  return (dispatch) => {
+    if (userId > 15000) {
+      dispatch(toggleIsFollowingUser(true, userId));
+      usersAPI.followAPI(userId).then(data => {
+        if (data.resultCode == 0) {
+          dispatch(follow(userId));
+          dispatch(toggleIsFollowingUser(false, userId));
+        }
+      }).catch(() => {
+        alert("Слишком много запросов. Повторите позже");
+        dispatch(toggleIsFollowingUser(false, userId));
+      }
+      );
+    } else {
+      dispatch(follow(userId));
+    }
+  }
+}
+
+export const createUser = (name) => {
   return {
     type: CREATE_USER,
-    name: name
+    name
   }
 };
 
-export const setUsersAC = (users) => {
+export const setUsers = (users) => {
   return {
     type: SET_USERS,
-    users: users
+    users
   }
 };
 
-export const setCurrentPageAC = (page) => {
+export const setCurrentPage = (page) => {
   return {
     type: SET_CURRENT_PAGE,
-    page: page
+    page
   }
 };
 
-export const setTotalUsersCountAC = (count) => {
+export const setTotalUsersCount = (count) => {
   return {
     type: SET_TOTAL_USERS_COUNT,
-    count: count
+    count
+  }
+};
+
+export const toggleIsFetchingUsers = (value) => {
+  return {
+    type: TOGGLE_IS_FETCHING_USERS,
+    value
+  }
+};
+
+export const toggleIsFollowingUser = (value, id) => {
+  return {
+    type: TOGGLE_IS_FOLLOWING_USER,
+    value,
+    id
   }
 };
 
 
-export const followAC = (userId) => {
+export const follow = (id) => {
   return {
     type: FOLLOW,
-    id: userId
+    id
   }
 };
 
-export const unfollowAC = (userId) => {
+export const unfollow = (id) => {
   return {
     type: UNFOLLOW,
-    id: userId
+    id
   }
 };
 

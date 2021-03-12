@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import Nav from './components/navigation/Nav.jsx';
-import FullProfile from './components/main/fullProfile/fullProfile.jsx';
-import Header from './components/header/Header.jsx';
+import FullProfileContainer from './components/main/fullProfile/fullProfileContainer.jsx';
+import HeaderContainer from './components/header/HeaderContainer.jsx';
 import UsersContainer from "./components/users/UsersContainer.jsx"
 import Groups from "./components/groups/Groups.jsx"
 import Contacts from "./components/contacts/Contacts.jsx"
@@ -16,11 +16,11 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div className="App">
-                    <Header />
+                    <HeaderContainer />
                     <Nav />
                     <div className="content">
-                        <Route path="/profile" render={() => 
-                            <FullProfile />
+                        <Route path="/profile/:whichProfile" render={() => 
+                            <FullProfileContainer />
                         } />
                         <Route path="/messages" render={() =>
                             <MessagesContainer />

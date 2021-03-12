@@ -89,7 +89,7 @@ const postsReducer = (state = initialState, action) => {
   }
 };
 
-export const addPostActionCreator = (name, text) => {
+export const addPost = (name, text) => {
   return {
     type: ADD_POST,
     name: name,
@@ -97,14 +97,14 @@ export const addPostActionCreator = (name, text) => {
   }
 };
 
-export const giveLikeActionCreator = (id) => {
+export const giveLike = (id) => {
   return {
     type: GIVE_LIKE,
     id: id
   }
 };
 
-export const giveDislikeActionCreator = (id) => {
+export const giveDislike = (id) => {
   return {
     type: GIVE_DISLIKE,
     id: id

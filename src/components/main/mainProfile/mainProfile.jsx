@@ -4,14 +4,26 @@ import './mainProfile.css';
 class mainProfile extends React.Component {
 
     render() {
+        
+        let contacts = [];
+
+        for (let key in this.props.profile.contacts) {
+            contacts.push( <div>{`${key}: ${this.props.profile.contacts[key]}`}</div> );              
+        } 
+
         return (
             <div className="mainProfile">
-                <img src='https://lh3.googleusercontent.com/a-/AOh14GhEGJspOraTuvxG72W9N4367bposdAbMAaIQTB8WQ=s96-c-rg-br100' />
-                <ul>Список интересов:
-                    <li>Программирование</li>
-                    <li>Книги</li>
-                    <li>Фильмы</li>
-                </ul>
+                <div className="fullName">
+                    {this.props.profile.fullName}
+                </div>
+                <img src={this.props.profile.photo} />
+                <div className="profileDescription">
+                    {this.props.profile.aboutMe}
+                </div>
+                <div className="contacts">
+                    Контакты:
+                    { contacts }
+                </div>
             </div>
         );
     }

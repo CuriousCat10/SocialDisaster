@@ -10,9 +10,9 @@ class Nav extends React.Component {
         return (
             <nav className={s.nav}>
                 <div className={s.item}>
-                    <NavLink to="/profile"
+                    <NavLink to="/profile/my"
                         activeClassName={s.activeClass}>
-                        Профиль
+                        Мой профиль
                     </NavLink>
                 </div>
                 <div className={s.item}>

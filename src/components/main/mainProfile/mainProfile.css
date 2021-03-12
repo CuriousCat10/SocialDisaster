@@ -1,16 +1,31 @@
 .mainProfile {
     font-size:  20px;
-    padding: 20px;
+    padding: 15px;
+    margin: 5px;
+}
+
+.fullName {
+    margin-bottom: 20px;
+    border-top: grey dashed 1px;
+    border-bottom: grey dashed 1px;
 }
 
 .mainProfile img {
-    width: 100px;
+    width: 110px;
 }
 
-.mainProfile ul{
+.profileDescription{
+    margin-left: 10px;
+    text-align: center;
+    vertical-align: top;
     display: inline-block;
+}
+
+.contacts {
+    border-top: grey dashed 1px;
 }
 
 .mainProfile li{
     text-indent: 20px;
+    text-align: left;
 }

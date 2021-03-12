@@ -8,7 +8,7 @@
     width: 550px;
     border: 2px solid black;
     
-    grid-template-rows: 210px 3.7fr;
+    grid-template-rows: 190px 3.7fr;
     grid-template-columns: 160px 390px;
 
     grid-template-areas: 

@@ -17,7 +17,7 @@ const textFixedReducer = (state = '', action) => {
     }
 };
 
-export const changeTextActionCreator = (text) => {
+export const changeText = (text) => {
     return {
         type: CHANGE_TEXT, newText: text
     }
